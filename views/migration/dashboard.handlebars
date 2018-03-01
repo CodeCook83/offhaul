@@ -1,0 +1,35 @@
+<div class="container text-center">
+  <h1>{{ title }}</h1>
+  {{#if migrations}}
+  <table class="table table-hover pt-5">
+    <thead>
+      <tr>
+        <th scope="col">Create at</th>
+        <th scope="col">Updated at</th>
+        <th scope="col">Old provider</th>
+        <th scope="col">New provider</th>
+        <th scope="col">Status</th>
+        <th scope="col">Count Mails</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each migrations}}
+
+      <tr>
+        <td>{{cratedAt}}</td>
+        <td>{{updatedAt}}</td>
+        <td>{{providerOld}}</td>
+        <td>{{providerNew}}</td>
+        <td>{{status}}</td>
+        <td>Content</td>
+    </tr>
+    </tbody>
+  </table>
+  {{/each}} 
+  {{else}}
+  <p class="pt-5 lead">You have not performed a migration.</p>
+  <form method="POST">
+    <button class="btn btn-info mt-5" name="startToday" type="submit">Start today</button>
+  </form>
+  {{/if}}
+</div>

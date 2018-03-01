@@ -1,0 +1,124 @@
+<div class="container">
+  <h1 class="text-center">{{ title }}</h1>
+  <p class="lead">Here you can check the provider, add, edit or delete one. Click on the items to manipulate them</p>
+  <div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12 pt-3">
+      <div class="card position-relative">
+        <h5 class="card-header">The List</h5>
+        <button class="btn btn-circle addProviderCardBtn">
+          <i class="fas fa-plus"></i>
+        </button>
+        <div class="list-group list-group-flush" id="listProvider">
+          {{#if providers}} {{#each providers}}
+          <a href="/provider/{{this.id}}" class="list-group-item list-group-item-action d-flex justify-content-end">
+            <span class="mr-auto">{{providername}}</span>
+            <div>
+              {{#if this.haveCalendar}}
+              <span class="badge" style="background-color: #8bc34a; color: white">calendar</span>
+              {{else}}
+              <span class="badge" style="background-color: #ffca28; color: white">no calendar</span>
+              {{/if}} {{#if this.haveContacts}}
+              <span class="badge" style="background-color: #4caf50; color: white">contacts</span>
+              {{else}}
+              <span class="badge" style="background-color: #ffab00; color: white">no contacts</span>
+              {{/if}} {{#if this.tested}}
+              <span class="badge" style="background-color: #558b2f; color: white">tested</span>
+              {{else}}
+              <span class="badge" style="background-color: #ff6f00; color: white">not tested</span>
+              {{/if}}
+            </div>
+          </a>
+          {{/each}} {{else}}
+          <li class="list-group-item" disabled>-- No providers in the database</li>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 text-left pt-3">
+      <form id="formProvider" method="POST" action="/provider/addorupdate?_method=PUT">
+        <input type="hidden" value="" name="id">
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-12">
+            <label for="providername">Provider name</label>
+            <input class="form-control" type="text" name="providername" placeholder="Provider name">
+          </div>
+          <div class="form-group col-md-6 col-sm-12">
+            <label for="owner">Created By</label>
+            <input class="form-control" type="text" name="owner" placeholder="- automatically generation">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-8 col-sm-8">
+            <label for="incoming">Incoming Server</label>
+            <input class="form-control" type="text" name="incoming" placeholder="Incoming Server">
+          </div>
+          <div class="form-group col-md-4 col-sm-4">
+            <label for="incomingPort">Port incoming</label>
+            <input class="form-control" type="text" name="incomingPort" placeholder="Port incoming">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-8 col-sm-8">
+            <label for="outgoing">Outgoing Server</label>
+            <input class="form-control" type="text" name="outgoing" placeholder="Outgoing Server">
+          </div>
+          <div class="form-group col-md-4 col-sm-4">
+            <label for="outgoingPort">Port outgoing</label>
+            <input class="form-control" type="text" name="outgoingPort" placeholder="Port outgoing">
+          </div>
+        </div>
+        <div class="form-row my-2">
+          <label class="col-md-4 col-sm-12">Provider contains:</label>
+          <div class="form-check col-md-4 col-sm-6 col-6">
+            <div class="form-check form-check chec">
+              <input class="form-check-input" type="checkbox" id="haveContacts" name="haveContacts">
+              <label class="form-check-label" for="haveContacts">
+                <i class="fas fa-users"></i>&nbsp;Contacts?
+              </label>
+            </div>
+          </div>
+          <div class="form-check col-md-4 col-sm-6 col-6">
+            <div class="form-check form-check">
+              <input class="form-check-input" type="checkbox" id="haveCalendar" name="haveCalendar">
+              <label class="form-check-label" for="haveCalendar">
+                <i class="fas fa-calendar-alt"></i>&nbsp;Calendar?
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6 col-sm-6">
+            <label for="createdAt">Created at</label>
+            <input class="form-control" type="text" name="createdAt" id="createdAt" placeholder="- automatically generation" disabled>
+          </div>
+          <div class="form-group col-md-6 col-sm-6">
+            <label for="updatedAt">Updated at</label>
+            <input class="form-control" type="text" name="updatedAt" id="updatedAt" placeholder="- automatically generation" disabled>
+          </div>
+        </div>
+        <div class="form-row my-2">
+          <div class="form-check col-lg-12 col-md-12 col-sm-12">
+            <div class="form-check-inline form-check text-danger my-2">
+              <input class="form-check-input" type="checkbox" id="tested" name="tested">
+              <label class="form-check-label" for="tested">Tested by admin?</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-lg-4 col-md-4 col-sm-4 socialBtn">
+            <button class="btn btn-block btn-info" id="openForEditBtn">
+              <i class="far fa-edit"></i>&nbsp;&nbsp;Open for Edit</button>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 socialBtn">
+            <button id="deleteProviderBtn" class="btn btn-block btn-danger">
+              <i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</button>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 socialBtn">
+            <button class="btn btn-block btn-success" id="addOrUpdateProviderBtn">
+              <i class="far fa-save"></i>&nbsp;&nbsp;Add Or Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

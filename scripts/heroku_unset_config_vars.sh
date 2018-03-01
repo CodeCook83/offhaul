@@ -1,0 +1,12 @@
+heroku config:unset FACEBOOK_CLIENT_ID -a <your app name>
+heroku config:unset FACEBOOK_CLIENT_SECRET -a <your app name>
+heroku config:unset GOOGLE_CLIENT_ID -a <your app name>
+heroku config:unset GOOGLE_CLIENT_SECRET -a <your app name>
+heroku config:unset MAIL_PASSWORD -a <your app name>
+heroku config:unset MAIL_PORT -a <your app name>
+heroku config:unset MAIL_SERVER -a <your app name>
+heroku config:unset MAIL_USER -a <your app name>
+heroku config:unset MONGO_URI -a <your app name>
+heroku config:unset SESSION_SECRET -a <your app name>
+heroku config:unset TWITTER_CLIENT_ID -a <your app name>
+heroku config:unset TWITTER_CLIENT_SECRET -a <your app name>

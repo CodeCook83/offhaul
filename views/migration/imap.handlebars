@@ -1,0 +1,150 @@
+<div class="container">
+  <h1 class="text-center">{{title}}</h1>
+  <form method="POST" class="pt-5">
+    <div class="row">
+      <!-- 1. col -->
+      <div class="col-md-5 text-center oldProvider">
+        <div class="form-group">
+          <label for="selectOldProvider">
+            <h5 class="lead">Select your old provider</h5>
+          </label>
+          <select class="form-control selectOldProvider" name="selectOldProvider">
+            <option selected>...</option>
+            <option value="arcor">Arcor</option>
+            <option value="gmx">GMX</option>
+            <option value="google" disabled>Google</option>
+            <option value="microsoft" disabled>Microsoft</option>
+            <option value="custom">Custom...</option>
+          </select>
+        </div>
+        <div class="customOldProvider text-left">
+          <div class="form-group row">
+            <label for="incomingImapOld" class="col-form-label col-sm-5 col-md-12 col-lg-5">Incoming Server</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="text" class="form-control" name="incomingImapOld" placeholder="Incoming Server">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="portIncomingOld" class="col-form-label col-sm-5 col-md-12 col-lg-5">Port (Incoming)</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="number" class="form-control" name="portIncomingOld" placeholder="Port (Incoming)">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="outgoingSmtpOld" class="col-form-label col-sm-5 col-md-12 col-lg-5">Outgoing Server</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="text" class="form-control" name="outgoingSmtpOld" placeholder="Outgoing Server">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="portOutgoingOld" class="col-form-label col-sm-5 col-md-12 col-lg-5">Port (Outgoing)</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="number" class="form-control" name="portOutgoingOld" placeholder="Port (Outgoing)">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-5 col-md-12 col-lg-5">Secure?</div>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="tlsOld" name="tlsOld">
+                <label for="tlsOld" class="form-check-label">(SSL/TLS)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="formAuthOld text-left">
+          <div class="form-group row">
+            <label for="emailOld" class="col-form-label col-sm-5 col-md-12 col-lg-5">Email</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="email" class="form-control emailOld" name="emailOld" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="passwordOld" class="col-form-label col-sm-5 col-md-12 col-lg-5">Password</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="password" class="form-control passwordOld" name="passwordOld" placeholder="Password">
+            </div>
+          </div>
+          <div class="form-group text-center pt-3">
+            <button class="btn btn-warning connTestOldProvider">Test connection...</button>
+          </div>
+        </div>
+      </div>
+      <!-- 2. col -->
+      <div class="col-md-2 text-center" style="padding-top: 50px">
+        <i class="fas fa-angle-double-right fa-lg"></i>
+      </div>
+      <!-- 3. col -->
+      <div class="col-md-5 text-center newProvider">
+        <div class="form-group">
+          <label for="selectNewProvider">
+            <h5 class="lead">Select your new provider</h5>
+          </label>
+          <select class="form-control selectNewProvider" name="selectNewProvider">
+            <option selected>...</option>
+            <option value="arcor">Arcor</option>
+            <option value="gmx">GMX</option>
+            <option value="google" disabled>Google</option>
+            <option value="microsoft" disabled>Microsoft</option>
+            <option value="custom">Custom...</option>
+          </select>
+        </div>
+        <div class="customNewProvider text-left">
+          <div class="form-group row">
+            <label for="incomingImapNew" class="col-form-label col-sm-5 col-md-12 col-lg-5">Incoming Server</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="text" class="form-control" name="incomingImapNew" placeholder="Incoming Server">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="portIncomingNew" class="col-form-label col-sm-5 col-md-12 col-lg-5">Port (Incoming)</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="number" class="form-control" name="portIncomingNew" placeholder="Port (Incoming)">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="outgoingSmtpNew" class="col-form-label col-sm-5 col-md-12 col-lg-5">Outgoing Server</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="text" class="form-control" name="outgoingSmtpNew" placeholder="Outgoing Server">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="portOutgoingNew" class="col-form-label col-sm-5 col-md-12 col-lg-5">Port (Outgoing)</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="number" class="form-control" name="portOutgoingNew" placeholder="Port (Outgoing)">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-5 col-md-12 col-lg-5">Secure?</div>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="tlsNew" name="tlsNew">
+                <label for="tlsNew" class="form-check-label">(SSL/TLS)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="formAuthNew text-left">
+          <div class="form-group row">
+            <label for="emailNew" class="col-form-label col-sm-5 col-md-12 col-lg-5">Email</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="email" class="form-control emailNew" name="emailNew" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="passwordNew" class="col-form-label col-sm-5 col-md-12 col-lg-5">Password</label>
+            <div class="col-sm-7 col-md-12 col-lg-7">
+              <input type="password" class="form-control passwordNew" name="passwordNew" placeholder="Password">
+            </div>
+          </div>
+          <div class="form-group text-center">
+            <button class="btn btn-warning connTestNewProvider">Test connection...</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group submitBtn text-center pt-5">
+      <button class="btn btn-primary col-md-3 secondStep" type="submit">Next Step - Select Folder</button>
+    </div>
+  </form>
+</div>

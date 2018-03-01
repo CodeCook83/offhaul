@@ -1,0 +1,171 @@
+<div class="container">
+  <h3 class="title-padding-bottom text-center">{{ title }}</h3>
+  <div class="card">
+    <div class="card-header">
+      Profile Information
+    </div>
+    <div class="card-body">
+      <form method="POST" action="/user/account?_method=PUT">
+        <div class="form-group row">
+          <label for="email" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" name="email" placeholder="Email" value="{{user.email}}">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="name" class="col-sm-2 col-form-label">Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="name" placeholder="Name" value="{{user.name}}">
+          </div>
+        </div>
+        <fieldset class="form-group">
+          <div class="row">
+            <legend class="col-form-label col-sm-2 pt-0">Gender</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" value="male" {{#ifeq user.gender 'male'}} checked {{/ifeq}}>
+                <label class="form-check-label" for="male">
+                  Male
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" value="female" {{#ifeq user.gender 'female'}} checked {{/ifeq}}>
+                <label class="form-check-label" for="female">
+                  Female
+                </label>
+              </div>
+            </div>
+        </fieldset>
+        <div class="form-group row">
+          <label for="street" class="col-sm-2 col-form-label">Street</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="street" placeholder="Street" value="{{user.address.street}}">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="postCode" class="col-sm-2 col-form-label">Post Code</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" name="postCode" placeholder="Post Code" value="{{user.address.postCode}}">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="city" class="col-sm-2 col-form-label">City</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="city" placeholder="City" value="{{user.address.city}}">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="gravatar" class="col-sm-2 col-form-label">Gravatar</label>
+          <div class="col-sm-10">
+            <img src="{{user.gravatar}}" class="profile" width="100" height="100">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-success">Update Profile</button>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+    <br />
+    <div class="card">
+      <div class="card-header">
+        Change Password
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/user/account?_method=PUT">
+          <div class="form-group row">
+            <label for="newPassword" class="col-sm-2 col-form-label">New Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" name="newPassword" placeholder="New Password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="confirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-success">Change Password</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br />
+    <div class="card">
+      <div class="card-header">
+        Linked Accounts
+      </div>
+      <div class="card-body row">
+        {{#if user.facebook}}
+        <p class="text-center col-md-4 col-sm-12">
+          <a href="/user/unlink/facebook" class="text-info">Unlink your Facebook account</a>
+        </p>
+        {{else}}
+        <div class="col-md-4 col-sm-12 socialBtn">
+          <a href="/auth/facebook" class="btn btn-block btn-lg btn-facebook disabled">
+            <i class="fab fa-facebook-square"></i>&nbsp;&nbsp;Link Facebook</a>
+        </div>
+        {{/if}} {{#if user.twitter}}
+        <p class="text-center col-md-4 col-sm-12">
+          <a href="/user/unlink/twitter" class="text-info">Unlink your Twitter account</a>
+        </p>
+        {{else}}
+        <div class="col-md-4 col-sm-12 socialBtn">
+          <a href="/auth/twitter" class="btn btn-block btn-lg btn-twitter">
+            <i class="fab fa-twitter-square"></i>&nbsp;&nbsp;Link Twitter</a>
+        </div>
+        {{/if}} {{#if user.google}}
+        <p class="text-center col-md-4 col-sm-12">
+          <a href="/user/unlink/google" class="text-info">Unlink your Google account</a>
+        </p>
+        {{else}}
+        <div class="col-md-4 col-sm-12 socialBtn">
+          <a href="/auth/google" class="btn btn-block btn-lg btn-google">
+            <i class="fab fa-google-plus-square"></i>&nbsp;&nbsp;Link Google+</a>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <br />
+    <div class="card border-danger">
+      <div class="card-header text-danger card-delete">
+        DELETE ACCOUNT
+      </div>
+      <div class="card-body text-danger">
+        <p>You can delete your account, but keep in mind this action is irreversible.</p>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <form id="formDelete" method="POST" action="/user/account?_method=DELETE">
+              <input type="button" value="Delete my account" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLongTitle">Confirm Delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>You are about to delete your account, this procedure is irreversible.</p>
+          <p>Do you want to proceed?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="deleteProfileSubmitBtn" type="button" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>

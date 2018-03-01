@@ -1,0 +1,22 @@
+<div class="container text-center">
+  <div class="col-md-8 mx-auto">
+    <h1>{{title}}</h1>
+    <h5 class="lead">Select the folders you want to migrate</h5>
+    <div class="row justify-content-around mt-3">
+
+      <div class="col-md-6 col-sm-12 socialBtn">
+        <button class="btn btn-block btn-success" id="selectAll">
+          <i class="fas fa-check"></i>&nbsp;&nbsp;Select All
+        </button>
+      </div>
+      <div class="col-md-6 col-sm-12 socialBtn">
+        <button class="btn btn-block btn-info" id="unselectAll">
+          <i class="fas fa-times"></i>&nbsp;&nbsp;Uncheck All
+        </button>
+      </div>
+    </div>
+    <div class="list-group mt-3 text-left" id="selectFolder">
+      {{> _mailbox}}
+    </div>
+  </div>
+</div>

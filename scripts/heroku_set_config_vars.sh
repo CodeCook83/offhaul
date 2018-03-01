@@ -1,0 +1,12 @@
+heroku config:set FACEBOOK_CLIENT_ID='<fill it out>' -a <your app name>
+heroku config:set FACEBOOK_CLIENT_SECRET='<fill it out>' -a <your app name>
+heroku config:set GOOGLE_CLIENT_ID='<fill it out>' -a <your app name>
+heroku config:set GOOGLE_CLIENT_SECRET='<fill it out>' -a <your app name>
+heroku config:set MAIL_PASSWORD='<fill it out>' -a <your app name>
+heroku config:set MAIL_PORT='<fill it out>' -a <your app name>
+heroku config:set MAIL_SERVER='<fill it out>' -a <your app name>
+heroku config:set MAIL_USER='<fill it out>' -a <your app name>
+heroku config:set MONGO_URI='<fill it out>' -a <your app name>
+heroku config:set SESSION_SECRET='<fill it out>' -a <your app name>
+heroku config:set TWITTER_CLIENT_ID='<fill it out>' -a <your app name>
+heroku config:set TWITTER_CLIENT_SECRET='<fill it out>' -a <your app name>

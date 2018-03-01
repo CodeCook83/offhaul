@@ -1,0 +1,21 @@
+{{#each children}}
+  <div class="mbRoot">
+  <div class="list-group-item list-group-item-action">
+    <div class="row">
+      <div class="col-auto">
+        <input class="col-auto" type="checkbox" name="{{ name }}Checkbox" value="{{ name }}Checkbox">
+      </div>
+      <a class="col list-group-item-action" data-toggle="collapse" href="#sub{{ name }}" style="padding-left: 0px;">
+        <i class="far fa-plus-square"></i>&nbsp;
+        <i class="far fa-folder fa-lg"></i>&nbsp;&nbsp;{{ name }}
+        <span class="badge badge-primary badge-pill float-right">2</span>
+      </a>
+    </div>
+  </div>
+  {{#if children}}
+  <div class="collapse" id="sub{{name}}">
+    {{> _mailbox}}
+  </div>
+  {{/if}}
+</div>
+{{/each}}

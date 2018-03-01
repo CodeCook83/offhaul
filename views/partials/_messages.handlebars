@@ -1,0 +1,23 @@
+<div class="container">
+  {{#if messages.error}}
+  <div role="alert" class="alert alert-danger">
+    {{#each messages.error}}
+    <div>{{msg}}</div>
+    {{/each}}
+  </div>
+  {{/if}}
+  {{#if messages.success}}
+  <div role="alert" class="alert alert-success">
+    {{#each messages.success}}
+    <div>{{msg}}</div>
+    {{/each}}
+  </div>
+  {{/if}}
+  {{#if messages.info}}
+  <div role="alert" class="alert alert-info">
+    {{#each messages.info}}
+    <div>{{msg}}</div>
+    {{/each}}
+  </div>
+  {{/if}}
+</div>

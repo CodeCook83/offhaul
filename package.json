@@ -1,0 +1,49 @@
+{
+  "name": "offhaul",
+  "version": "1.0.0-alpha.1",
+  "description": "A webapp to haul your mails, contacts and calendar, so your whole office, from one provider to another",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeCook83/offhaul.git"
+  },
+  "author": "CodeCook <codecook@posteo.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CodeCook83/offhaul/issues"
+  },
+  "homepage": "https://github.com/CodeCook83/offhaul#readme",
+  "dependencies": {
+    "async": "^2.6.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
+    "emailjs-imap-client": "^3.0.5",
+    "express": "^4.16.2",
+    "express-flash": "0.0.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "express-validator": "^4.3.0",
+    "method-override": "^2.3.10",
+    "moment": "^2.20.1",
+    "mongoose": "^5.0.2",
+    "morgan": "^1.9.0",
+    "nodemailer": "^4.4.2",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1",
+    "ngrok": "^2.2.25",
+    "nodemon": "^1.17.1",
+    "popper": "^1.0.1"
+  }
+}
