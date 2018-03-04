@@ -1,8 +1,8 @@
 // @ts-check
 const _ = require('underscore');
-const providerList = require('../resources/provider');
 const ImapClient = require('emailjs-imap-client').default;
 const Migration = require('../models/Migration');
+const Provider = require('../models/Provider');
 const title = 'Main Menu';
 let dataOldProvider = {};
 
@@ -50,9 +50,21 @@ exports.mainPost = function (req, res) {
  * GET /imap
  */
 exports.imapGet = function (req, res) {
-  res.render('migration/imap', {
-    title: title
-  });
+  Provider.find({
+      tested: true
+    }).sort({
+      providername: 'asc'
+    })
+    .then(providers => {
+      const result = [];
+      providers.forEach(value => {
+        result.push(value.providername);
+      })
+      res.render('migration/imap', {
+        title: title,
+        providers: result
+      })
+    })
 }
 
 /**
@@ -103,69 +115,65 @@ exports.selectFolderPost = function (req, res) {
   res.redirect('/migration/dashboard');
 }
 
-
-
 /**
  *  GET /testconn
  */
 exports.testConnectionGet = function (req, res) {
-  let provider = {};
+  let providername, email, password;
   let providerOld = req.query.selectOldProvider;
   let providerNew = req.query.selectNewProvider;
   let client;
-  _.forEach(providerList, (val, key) => {
-    if (providerOld) {
-      if (key === req.query.selectOldProvider) {
-        provider = val;
-        provider.auth.user = req.query.emailOld;
-        provider.auth.password = req.query.passwordOld;
-        dataOldProvider.providerOld = provider;
-      }
-    }
-    if (providerNew) {
-      if (key === req.query.selectNewProvider) {
-        provider = val;
-        provider.auth.user = req.query.emailNew;
-        provider.auth.password = req.query.passwordNew;
-        dataOldProvider.providerNew = provider;
-      }
-    }
-  })
 
-  if (provider) {
-    if (process.env.NODE_ENV === 'production') {
-      client = new ImapClient(
-        provider.host,
-        provider.port, {
-          auth: {
-            user: provider.auth.user,
-            pass: provider.auth.password
-          }
-        });
-    } else {
-      client = new ImapClient(
-        provider.host,
-        provider.port, {
-          auth: {
-            user: provider.auth.user_dev,
-            pass: provider.auth.password_dev
-          }
-        });
-    }
-
-    client.onerror = function (error) {
-      console.log("**************** " + error);
-      client.close()
-        .then(() => {
-          /* connection terminated */
-        });
-    }
-    client.connect()
-      .then((data) => {
-        res.send('Connection Ok');
-      })
-      .catch(() => {
-        res.send('Bad connection!')
-      })
+  if (providerOld) {
+    providername = providerOld;
+    email = req.query.emailOld;
+    password = req.query.passwordOld;
+  } else if (providerNew) {
+    providername = providerNew;
+    email = req.query.emailNew;
+    password = req.query.passwordNew;
   }
+
+  Provider.findOne({
+      providername: providername
+    })
+    .then(provider => {
+      if (process.env.NODE_ENV === 'production') {
+        client = new ImapClient(
+          provider.incoming,
+          provider.incomingPort, {
+            auth: {
+              user: email,
+              pass: password
+            }
+          });
+      } else {
+        client = new ImapClient(
+          provider.incoming,
+          provider.incomingPort, {
+            auth: {
+              user: provider.testAccounts[0].email,
+              pass: provider.testAccounts[0].password
+            }
+          });
+      }
+
+      client.connect()
+        .then((data) => {
+          res.status(200);
+          res.send('Connection Ok');
+        })
+        .catch((err) => {
+          if (err.message.startsWith('Authentication failed')) {
+            res.status(200);
+            res.send('Username or password are incorrect');
+          } else if (err.message.startsWith('Could not open socket')) {
+            res.status(200);
+            res.send('Server settings are incorrect');
+          } else {
+            res.status(200);
+            res.send('Something went wrong');
+          }
+        })
+    })
 }

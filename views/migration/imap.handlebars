@@ -10,10 +10,9 @@
           </label>
           <select class="form-control selectOldProvider" name="selectOldProvider">
             <option selected>...</option>
-            <option value="arcor">Arcor</option>
-            <option value="gmx">GMX</option>
-            <option value="google" disabled>Google</option>
-            <option value="microsoft" disabled>Microsoft</option>
+            {{#if providers}} {{#each providers}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}} {{/if}}
             <option value="custom">Custom...</option>
           </select>
         </div>
@@ -65,9 +64,13 @@
               <input type="password" class="form-control passwordOld" name="passwordOld" placeholder="Password">
             </div>
           </div>
-          <div class="form-group text-center pt-3">
-            <button class="btn btn-warning connTestOldProvider">Test connection...</button>
+          <div class="form-group text-center pt-2">
+            <button class="btn btn-warning connTestOldProvider">
+              Test connection...
+              <i class="fa fa-spinner fa-pulse fa-fw spinner-connection-old" style="display:none;"></i>
+            </button>
           </div>
+          <div class="alert alert-danger alert-connection-old" role="alert" style="display:none;"></div>
         </div>
       </div>
       <!-- 2. col -->
@@ -82,10 +85,9 @@
           </label>
           <select class="form-control selectNewProvider" name="selectNewProvider">
             <option selected>...</option>
-            <option value="arcor">Arcor</option>
-            <option value="gmx">GMX</option>
-            <option value="google" disabled>Google</option>
-            <option value="microsoft" disabled>Microsoft</option>
+            {{#if providers}} {{#each providers}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}} {{/if}}
             <option value="custom">Custom...</option>
           </select>
         </div>
@@ -137,9 +139,13 @@
               <input type="password" class="form-control passwordNew" name="passwordNew" placeholder="Password">
             </div>
           </div>
-          <div class="form-group text-center">
-            <button class="btn btn-warning connTestNewProvider">Test connection...</button>
+          <div class="form-group text-center pt-2">
+            <button class="btn btn-warning connTestNewProvider">
+              Test connection...
+              <i class="fa fa-spinner fa-pulse fa-fw spinner-connection-new" style="display:none;"></i>
+            </button>
           </div>
+          <div class="alert alert-danger alert-connection-new" role="alert" style="display:none;"></div>
         </div>
       </div>
     </div>

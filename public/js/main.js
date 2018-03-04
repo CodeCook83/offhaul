@@ -28,7 +28,7 @@ function addPaddingToMailboxTree(ancestor, padding) {
     padding += 15;
     descendants.css('padding-left', padding);
     descendants.parents('.mbRoot').each(function () {
-      
+
       addPaddingToMailboxTree($(this), padding);
     })
   }
@@ -85,24 +85,33 @@ $('.selectNewProvider').on('change', function (e) {
 $('.connTestOldProvider').click(function (e) {
   e.preventDefault();
   e.stopPropagation();
+  $('.spinner-connection-old').show();
+  $('.connTestOldProvider').prop('disabled', 'true');
   var data = $('.oldProvider').find('select, input').serialize();
   $.get('/migration/testconnection', data, function (data) {
-    $('.connTestOldProvider').removeClass('btn-warning').
-    addClass('btn-success').prop('disabled', true).text(" " + data).prepend("<i class='fas fa-check'></i>");
-    if (connTestOldProvider == false) {
-      connTestOldProvider = true;
-      if (connTestNewProvider == true) {
-        // $('.secondStep').prop('disabled', false);
-      }
+    switch (data) {
+      case 'Connection Ok':
+        $('.connTestOldProvider').removeClass('btn-warning').
+        addClass('btn-success').prop('disabled', true).text(" " + data).prepend("<i class='fas fa-check'></i>");
+        if (connTestOldProvider == false) {
+          connTestOldProvider = true;
+          if (connTestNewProvider == true) {
+            // $('.secondStep').prop('disabled', false);
+          }
+        }
+        $('.emailOld').prop('disabled', true);
+        $('.passwordOld').prop('disabled', true);
+        $('.selectOldProvider').prop('disabled', true);
+        break;
+      case 'Username or password are incorrect':
+        setBtnChangesAndAlert('old', data);
+        break;
+      case 'Server settings are incorrect':
+        setBtnChangesAndAlert('old', data);
+        break;
     }
-    $('.emailOld').prop('disabled', true);
-    $('.passwordOld').prop('disabled', true);
-    $('.selectOldProvider').prop('disabled', true);
-    $(this).prop('disabled', true);
-  }).fail(function (xhr, status, error) {
-    console.log(xhr);
-    console.log(status);
-    console.log(error);
+  }).fail(function (jqXHR) {
+    console.log(jqXHR);
   });
 })
 
@@ -110,26 +119,54 @@ $('.connTestOldProvider').click(function (e) {
 $('.connTestNewProvider').click(function (e) {
   e.preventDefault();
   e.stopPropagation();
+  $('.spinner-connection-new').show();
+  $('.connTestNewProvider').prop('disabled', 'true');
   var data = $('.newProvider').find('select, input').serialize();
   $.get('/migration/testconnection', data, function (data) {
-    $('.connTestNewProvider').removeClass('btn-warning').
-    addClass('btn-success').prop('disabled', true).text(" " + data).prepend("<i class='fas fa-check'></i>");
-    if (connTestNewProvider == false) {
-      connTestNewProvider = true;
-      if (connTestOldProvider == true) {
-        // $('.secondStep').prop('disabled', false);
-      }
+    switch (data) {
+      case 'Connection Ok':
+        $('.connTestNewProvider').removeClass('btn-warning').
+        addClass('btn-success').prop('disabled', true).text(" " + data).prepend("<i class='fas fa-check'></i>");
+        if (connTestNewProvider == false) {
+          connTestNewProvider = true;
+          if (connTestOldProvider == true) {
+            // $('.secondStep').prop('disabled', false);
+          }
+        }
+        $('.emailNew').prop('disabled', true);
+        $('.passwordNew').prop('disabled', true);
+        $('.selectNewProvider').prop('disabled', true);
+        break;
+      case 'Username or password are incorrect':
+        setBtnChangesAndAlert('new', data);
+        break;
+      case 'Server settings are incorrect':
+        setBtnChangesAndAlert('new', data);
+        break;
     }
-    $('.emailNew').prop('disabled', true);
-    $('.passwordNew').prop('disabled', true);
-    $('.selectNewProvider').prop('disabled', true);
-    $(this).prop('disabled', true);
-  }).fail(function (xhr, status, error) {
-    console.log(xhr);
-    console.log(status);
-    console.log(error);
+  }).fail(function (jqXHR) {
+    console.log(jqXHR);
   });
 })
+//
+//     $('.connTestNewProvider').removeClass('btn-warning').
+//     addClass('btn-success').prop('disabled', true).text(" " + data).prepend("<i class='fas fa-check'></i>");
+//     if (connTestNewProvider == false) {
+//       connTestNewProvider = true;
+//       if (connTestOldProvider == true) {
+//         // $('.secondStep').prop('disabled', false);
+//       }
+//     }
+//     $('.emailNew').prop('disabled', true);
+//     $('.passwordNew').prop('disabled', true);
+//     $('.selectNewProvider').prop('disabled', true);
+//     $(this).prop('disabled', true);
+//   }).fail(function (xhr, status, error) {
+//     console.log(xhr);
+//     console.log(status);
+//     console.log(error);
+//   });
+// })
 
 // Selector for the mail protocol
 $('.selectProtocol').change(function (e) {
@@ -199,6 +236,13 @@ $('#listProvider > a').on('click', function (e) {
     $('#formProvider input[name="incomingPort"]').val(result.incomingPort);
     $('#formProvider input[name="outgoing"]').val(result.outgoing);
     $('#formProvider input[name="outgoingPort"]').val(result.outgoingPort);
+    if (result.testAccounts.length > 0) {
+      $('#formProvider input[name="email"]').val(result.testAccounts[0].email);
+      $('#formProvider input[name="password"]').val(result.testAccounts[0].password);
+    } else {
+      $('#formProvider input[name="email"]').val('');
+      $('#formProvider input[name="password"]').val('');
+    }
     $('#formProvider input[name="createdAt"]').val(result.createdAtMomentjs);
     $('#formProvider input[name="updatedAt"]').val(result.updatedAtMomentjs);
     $('#formProvider input[name="haveContacts"]').prop('checked', result.haveContacts == true ? true : false);
@@ -229,6 +273,8 @@ function clearProviderForm() {
   $('#formProvider input[name="incomingPort"]').val('');
   $('#formProvider input[name="outgoing"]').val('');
   $('#formProvider input[name="outgoingPort"]').val('');
+  $('#formProvider input[name="email"]').val('');
+  $('#formProvider input[name="password"]').val('');
   $('#formProvider input[name="createdAt"]').val('');
   $('#formProvider input[name="updatedAt"]').val('');
   $('#formProvider input[name="haveContacts"]').prop('checked', false);
@@ -304,3 +350,16 @@ $('#deleteProviderBtn').on('click', function (e) {
     });
   }
 })
+
+// test connection: show alert notification
+function setBtnChangesAndAlert(btn, data) {
+  var myBtn = btn;
+  var firstChar = myBtn.substring(0, 1);
+  firstChar = firstChar.toUpperCase();
+  var tail = myBtn.substring(1);
+  myBtn = firstChar + tail;
+  $('.spinner-connection-' + btn).hide();
+  $('.connTest' + myBtn + 'Provider').prop('disabled', false);
+  $('.alert-connection-' + btn).text(data);
+  $('.alert-connection-' + btn).show().delay(3000).fadeOut();
+}
