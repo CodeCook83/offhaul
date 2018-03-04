@@ -170,6 +170,9 @@ exports.testConnectionGet = function (req, res) {
           } else if (err.message.startsWith('Could not open socket')) {
             res.status(200);
             res.send('Server settings are incorrect');
+          } else if (err.message.startsWith(' Socket timed out')) {
+            res.status(200);
+            res.send('Server timed out. Check your email address');
           } else {
             res.status(200);
             res.send('Something went wrong');

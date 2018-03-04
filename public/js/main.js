@@ -106,6 +106,9 @@ $('.connTestOldProvider').click(function (e) {
       case 'Username or password are incorrect':
         setBtnChangesAndAlert('old', data);
         break;
+      case 'Server timed out. Check your email address':
+        setBtnChangesAndAlert('old', data);
+        break;
       case 'Server settings are incorrect':
         setBtnChangesAndAlert('old', data);
         break;
@@ -138,6 +141,9 @@ $('.connTestNewProvider').click(function (e) {
         $('.selectNewProvider').prop('disabled', true);
         break;
       case 'Username or password are incorrect':
+        setBtnChangesAndAlert('new', data);
+        break;
+      case 'Server timed out. Check your email address':
         setBtnChangesAndAlert('new', data);
         break;
       case 'Server settings are incorrect':
