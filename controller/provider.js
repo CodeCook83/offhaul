@@ -30,8 +30,16 @@ exports.addOrUpdatePut = function (req, res) {
     tested: req.body.tested ? true : false,
     haveContacts: req.body.haveContacts ? true : false,
     haveCalendar: req.body.haveCalendar ? true : false,
-    owner: req.body.owner
+    owner: req.body.owner,
+    testAccounts: []
   };
+  const testAccount = {
+    email: req.body.email,
+    password: req.body.password
+  }
+
+  newProvider.testAccounts.push(testAccount);
+
   const options = {
     upsert: true
   };

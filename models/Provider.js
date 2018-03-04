@@ -60,6 +60,16 @@ const providerSchema = new Schema({
     ref: 'users',
     required: false
   },
+  testAccounts: [{
+    email: {
+      type: String,
+      require: false
+    },
+    password: {
+      type: String,
+      require: false
+    }
+  }]
 }, schemaOptions);
 
 providerSchema.virtual('createdAtMomentjs').get(function () {
