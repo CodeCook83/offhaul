@@ -14,34 +14,47 @@ __I appreciate any **help** you can offer to improve the code and help me better
 ## Installation
 Local installation for Mac and Linux Systems:
 
-* ```git clone https://github.com/CodeCook83/offhaul.git```
-* ```cd offhaul```
-* ```cp config/keys_prod.js config/keys_dev.js```
 * **For locally run**: 
+  * ```git clone https://github.com/CodeCook83/offhaul.git```
+  * ```cd offhaul```
+  * ```npm install```
+  * ```cp config/keys_prod.js config/keys_dev.js```
   * Edit `keys_dev.js` as follows and fill in your data
-  * ```javascript
-    module.exports = {
-      mongoURI : 'mongodb://<user>:<password>@<server>/offhaul-dev',
-      googleClientID: 'your code',
-      googleClientSecret: 'your code',
-      facebookClientID: 'your code',
-      facebookClientSecret: 'your code',
-      twitterClientID : 'your code',
-      twitterClientSecret: 'your code',
-      sessionSecret: 'your code',
-      mailUser: 'your code',
-      mailPassword: 'your code',
-      mailSmtp: 'your code',
-      mailPort: 'your code'
-    }
-    ```
+  ```javascript
+      module.exports = {
+        mongoURI : 'mongodb://<user>:<password>@<server>/offhaul-dev',
+        googleClientID: 'your code',
+        googleClientSecret: 'your code',
+        facebookClientID: 'your code',
+        facebookClientSecret: 'your code',
+        twitterClientID : 'your code',
+        twitterClientSecret: 'your code',
+        sessionSecret: 'your code',
+        mailUser: 'your code',
+        mailPassword: 'your code',
+        mailSmtp: 'your code',
+        mailPort: 'your code'
+      }
+  ```
   * run ```nodemon```
-  * You can visit the site on [http://localhost:5000](http://localhost:5000)
+  * Visit the site on [http://localhost:5000](http://localhost:5000)
 
-* **For server run** - e.g. [Heroku](https://www.heroku.com/) - 
+* **For server run** - e.g. [Heroku](https://www.heroku.com/)
+  * On Mac:
+    * Install [```brew```](https://brew.sh/)
+    * ```brew install heroku/brew/heroku```
+  * On Linux
+    * ```wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh```
+  * In the terminal: ```heroku login``` --> email and password
+  * ```git clone https://github.com/CodeCook83/offhaul.git```
+  * ```cd offhaul```
+  * ```heroku create```
   * fill your data in `scripts/heroku_set_config_vars.sh` then
   * ```chmod +x heroku_set_config_vars.sh```
   * ```./heroku_set_config_vars.sh```
+  * ```heroku git:remote -a <your app name>```
+  * ```git push heroku master```
+  * ```heroku open```
   * visit your heroku side
 
 Have fun!
