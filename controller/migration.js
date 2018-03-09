@@ -4,7 +4,6 @@ const ImapClient = require('emailjs-imap-client').default;
 const Migration = require('../models/Migration');
 const Provider = require('../models/Provider');
 const title = 'Main Menu';
-let dataOldProvider = {};
 
 /**
  * GET /migration/dashboard
@@ -78,34 +77,47 @@ exports.imapPost = function (req, res) {
  * GET /selectfolder
  */
 exports.selectFolderGet = function (req, res) {
+  let sessData = req.session;
+  let providerOld = sessData.providerOld
   let client;
-  if (process.env.NODE_ENV === 'production') {
-    client = new ImapClient(
-      dataOldProvider.providerOld.host,
-      dataOldProvider.providerOld.port, {
-        auth: {
-          user: dataOldProvider.providerOld.auth.user,
-          pass: dataOldProvider.providerOld.auth.password
-        }
-      });
-  } else {
-    client = new ImapClient(
-      dataOldProvider.providerOld.host,
-      dataOldProvider.providerOld.port, {
-        auth: {
-          user: dataOldProvider.providerOld.auth.user_dev,
-          pass: dataOldProvider.providerOld.auth.password_dev
-        }
-      });
-  }
-  client.connect().then(() => {
-    client.listMailboxes().then((mailboxes) => {
-      res.render('migration/selectFolder', {
-        title: title,
-        children: mailboxes.children
-      });
-    });
-  });
+
+  Provider.findOne({
+      providername: providerOld
+    })
+    .then(provider => {
+      if (process.env.NODE_ENV === 'production') {
+        client = new ImapClient(
+          provider.incoming,
+          provider.incomingPort, {
+            auth: {
+              user: sessData.emailOld,
+              pass: sessData.passwordOld
+            }
+          });
+      } else {
+        client = new ImapClient(
+          provider.incoming,
+          provider.incomingPort, {
+            auth: {
+              user: provider.testAccounts[0].email,
+              pass: provider.testAccounts[0].password
+            }
+          });
+      }
+
+      client.connect()
+        .then(() => {
+          client.listMailboxes().then((mailboxes) => {
+            res.render('migration/selectFolder', {
+              title: title,
+              children: mailboxes.children
+            });
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+    })
 }
 
 /**
@@ -120,6 +132,9 @@ exports.selectFolderPost = function (req, res) {
  */
 exports.testConnectionGet = function (req, res) {
   let providername, email, password;
+  let sessData = req.session;
+  sessData.providerOld = req.query.selectOldProvider;
+  sessData.providerNew = req.query.selectNewProvider;
   let providerOld = req.query.selectOldProvider;
   let providerNew = req.query.selectNewProvider;
   let client;
@@ -128,10 +143,14 @@ exports.testConnectionGet = function (req, res) {
     providername = providerOld;
     email = req.query.emailOld;
     password = req.query.passwordOld;
+    sessData.emailOld = req.query.emailOld;
+    sessData.passwordOld = req.query.passwordOld;
   } else if (providerNew) {
     providername = providerNew;
     email = req.query.emailNew;
     password = req.query.passwordNew;
+    sessData.emailNew = req.query.emailNew;
+    sessData.passwordNew = req.query.passwordNew;
   }
 
   Provider.findOne({
@@ -159,7 +178,7 @@ exports.testConnectionGet = function (req, res) {
       }
 
       client.connect()
-        .then((data) => {
+        .then(() => {
           res.status(200);
           res.send('Connection Ok');
         })

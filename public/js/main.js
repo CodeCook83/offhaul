@@ -13,26 +13,37 @@ $(document).ready(() => {
   $('.formAuthNew').css('display', 'none');
   $('#formProvider :input').not('#openForEditBtn').prop('disabled', true);
 
-  // add indenting and icons to tri state checkbox tree
-  var padding = 0;
-  var ancestor = $('#selectFolder > .mbRoot');
-  addPaddingToMailboxTree(ancestor, padding);
+  // Add left indenting to sub mailboxes
+  $('#selectFolder').find('a').each(function () {
+    var depth = $(this).parents('.mbRoot').length;
+
+    if ($(this).closest('.mbRoot').children('.collapse').length > 0) {
+      $(this).prepend('<i id="treeIcon" class="far fa-folder fa-lg"></i>&nbsp;');
+      $(this).prepend('<i id="treeExpand" class="far fa-plus-square"></i>&nbsp;&nbsp;');
+      
+    } else {
+      $(this).prepend('<i id="treeIcon" class="far fa-folder-open fa-lg"></i>&nbsp;');
+      $(this).prepend('<i id="treeExpand" class="far fa-minus-square"></i>&nbsp;&nbsp;');
+    }
+    var padding = 0;
+    for (i = 0; i < depth; i++) {
+      $(this).css('padding-left', padding);
+      padding += 20;
+    }
+
+  })
 
 }) // document.ready
 
-// Add left indenting to sub mailboxes
-function addPaddingToMailboxTree(ancestor, padding) {
-  var child = ancestor.children('.collapse');
-  if (child.length == 1) {
-    var descendants = child.children('.mbRoot').children().not('.collapse').find('a');
-    padding += 15;
-    descendants.css('padding-left', padding);
-    descendants.parents('.mbRoot').each(function () {
-
-      addPaddingToMailboxTree($(this), padding);
-    })
+$('#selectFolder').find('a').click(function (e) {
+  e.preventDefault();
+  if ($(this).closest('.mbRoot').children('.collapse').length > 0) {
+    $(this).find('#treeExpand').toggleClass('fa-plus-square fa-minus-square');
+    $(this).find('#treeIcon').toggleClass('fa-folder-open fa-folder');
+    
+  } else {
   }
-}
+})
 
 // Confirm profile delete btn 
 $('#deleteProfileSubmitBtn').click(function (e) {
@@ -154,25 +165,6 @@ $('.connTestNewProvider').click(function (e) {
     console.log(jqXHR);
   });
 })
-//
-//     $('.connTestNewProvider').removeClass('btn-warning').
-//     addClass('btn-success').prop('disabled', true).text(" " + data).prepend("<i class='fas fa-check'></i>");
-//     if (connTestNewProvider == false) {
-//       connTestNewProvider = true;
-//       if (connTestOldProvider == true) {
-//         // $('.secondStep').prop('disabled', false);
-//       }
-//     }
-//     $('.emailNew').prop('disabled', true);
-//     $('.passwordNew').prop('disabled', true);
-//     $('.selectNewProvider').prop('disabled', true);
-//     $(this).prop('disabled', true);
-//   }).fail(function (xhr, status, error) {
-//     console.log(xhr);
-//     console.log(status);
-//     console.log(error);
-//   });
-// })
 
 // Selector for the mail protocol
 $('.selectProtocol').change(function (e) {
