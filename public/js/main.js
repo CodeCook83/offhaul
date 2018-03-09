@@ -23,7 +23,6 @@ $(document).ready(() => {
       
     } else {
       $(this).prepend('<i id="treeIcon" class="far fa-folder-open fa-lg"></i>&nbsp;');
-      $(this).prepend('<i id="treeExpand" class="far fa-minus-square"></i>&nbsp;&nbsp;');
     }
     var padding = 0;
     for (i = 0; i < depth; i++) {
